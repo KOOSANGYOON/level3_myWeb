@@ -6,17 +6,28 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class UserController {
 	private List<User> users = new ArrayList<User> ();
 	
-	@PostMapping("/create")
+	@PostMapping("/users")
 	public String create(User user) {
 		System.out.println("user : " + user);
 		users.add(user);
 		return "redirect:/user/list";
+	}
+	
+	@GetMapping("/users/{userId}")
+	public String seeUser(@PathVariable String userId, Model model) {
+		for (User user : users) {
+			if (userId.equals(user.getUserId())) {
+				model.addAttribute("user", user);
+			}
+		}
+		return "profile";
 	}
 	
 	@GetMapping("/user/form")
@@ -31,7 +42,7 @@ public class UserController {
 	}
 	
 	@GetMapping("/user/profile")
-	public String profile(User user, Model model) {
+	public String profile(@PathVariable User user, Model model) {
 		System.out.println("take user : " + user);
 		for (User userInList : users) {
 			if (user.getUserId().equals(userInList.getUserId())) {
