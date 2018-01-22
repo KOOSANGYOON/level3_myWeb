@@ -13,6 +13,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class UserController {
 	private List<User> users = new ArrayList<User> ();
 	
+	@GetMapping("/")
+	public String index() {
+		return "index";
+	}
+	
 	@PostMapping("/users")
 	public String create(User user) {
 		System.out.println("user : " + user);
