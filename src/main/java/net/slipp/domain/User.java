@@ -1,10 +1,26 @@
-package net.slipp.web;
+package net.slipp.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class User {
+	@Id
+	@GeneratedValue
+	private long id;
+	
+	@Column(nullable=false, length=20)
 	private String userId;
+	
 	private String password;
 	private String name;
 	private String email;
+
+	public long getId() {
+		return id;
+	}
 
 	public void setUserId(String userId) {
 		this.userId = userId;
@@ -18,6 +34,10 @@ public class User {
 		this.name = name;
 	}
 
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
 	public String getUserId() {
 		return userId;
 	}
@@ -34,13 +54,15 @@ public class User {
 		return email;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", password=" + password + ", name=" + name + ", email=" + email + "]";
+	}
+
+	public void update(User newUser) {
+		this.name = newUser.name;
+		this.password = newUser.password;
+		this.email = newUser.email;
 	}
 
 }
