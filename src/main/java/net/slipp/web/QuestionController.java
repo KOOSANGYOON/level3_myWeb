@@ -6,25 +6,22 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
+//import net.slipp.domain.UserRepository;
+//import net.slipp.domain.User;
 import net.slipp.domain.Question;
 import net.slipp.domain.QuestionRepository;
-import net.slipp.domain.User;
 
 @Controller
 public class QuestionController {
 	@Autowired
 	private QuestionRepository questionRepository;
+//	private UserRepository userRepository;
 	
-	@GetMapping("/")
-	public String main(Model model) {
-		model.addAttribute("questions", questionRepository.findAll());
-		return "index";
-	}
+	
 	
 	@GetMapping("/qnaform")
 	public String qnaform() {
-		return "qnaform";
+		return "/qna/qnaform";
 	}
 	
 	@PostMapping("/questions")
@@ -39,6 +36,6 @@ public class QuestionController {
 	public String readQuestion(@PathVariable long id, Model model) {
 		Question question = questionRepository.findOne(id);
 		model.addAttribute("question", question);
-		return "show";
+		return "/qna/show";
 	}
 }
