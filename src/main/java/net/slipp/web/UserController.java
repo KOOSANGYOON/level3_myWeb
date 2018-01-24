@@ -24,10 +24,12 @@ public class UserController {
 	public String loginForm() {
 		return "/user/login";
 	}
+	
 	@PostMapping("/user/login")
 	public String login(String userId, String password, Model model, HttpSession session) {
 		System.out.println(userId + " " + password);
 		User user = userRepository.findByUserId(userId);
+		
 		if (user == null) {
 			System.out.println("========== Login FAILED... user ID didn't exist =============");
 			return "redirect:/user/loginForm";
@@ -39,6 +41,14 @@ public class UserController {
 		}
 		System.out.println("========== Login Success!! User is " + user + " =============");
 		session.setAttribute("user", user);
+		return "redirect:/";
+	}
+	
+	@GetMapping("/user/logout")
+	public String logout(HttpSession session) {
+		session.removeAttribute("user");
+		System.out.println("======== Success to LOGOUT!! ========");
+		
 		return "redirect:/";
 	}
 	
