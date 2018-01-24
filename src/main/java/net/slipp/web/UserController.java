@@ -2,6 +2,7 @@ package net.slipp.web;
 
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.boot.model.naming.IllegalIdentifierException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,13 +41,13 @@ public class UserController {
 			return "redirect:/user/loginForm";
 		}
 		System.out.println("========== Login Success!! User is " + user + " =============");
-		session.setAttribute("user", user);
+		session.setAttribute("sessionedUser", user);
 		return "redirect:/";
 	}
 	
 	@GetMapping("/user/logout")
 	public String logout(HttpSession session) {
-		session.removeAttribute("user");
+		session.removeAttribute("sessionedUser");
 		System.out.println("======== Success to LOGOUT!! ========");
 		
 		return "redirect:/";
@@ -69,12 +70,23 @@ public class UserController {
 		return "/user/profile";
 	}
 	
-	@GetMapping("/{id}/form")
-	public String updateForm(@PathVariable long id, Model model) {
-		User user = userRepository.findOne(id);
+	@GetMapping("/user/{id}/form")
+	public String updateForm(@PathVariable Long id, Model model, HttpSession session) {
+		Object tempUser = session.getAttribute("sessionedUser");
+		if (tempUser == null) {
+			return "redirect:/user/loginForm";
+		}
+		
+		User sessionedUser = (User)tempUser;
+		if (!id.equals(sessionedUser.getId())) {
+			throw new IllegalStateException("본인의 정보만 수정할 수 있습니다.");
+		}
+		
+		User user = userRepository.findOne(sessionedUser.getId());
 		model.addAttribute("user", user);
 		return "/user/updateForm";
 	}
+	
 	@PutMapping("/users/{id}")
 	public String update(@PathVariable long id, User newUser) {
 		System.out.println("asfsleiflsaijflsijfalsijflisj");
