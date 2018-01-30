@@ -21,6 +21,22 @@ public class User {
 	public long getId() {
 		return id;
 	}
+	
+	public boolean matchPassword(String newPassword) {
+		if (newPassword == null) {
+			return false;
+		}
+		
+		return newPassword.equals(password);
+	}
+	
+	public boolean matchId(Long newId) {
+		if (newId == null) {
+			return false;
+		}
+		
+		return newId.equals(id);
+	}
 
 	public void setUserId(String userId) {
 		this.userId = userId;
@@ -40,10 +56,6 @@ public class User {
 	
 	public String getUserId() {
 		return userId;
-	}
-
-	public String getPassword() {
-		return password;
 	}
 
 	public String getName() {

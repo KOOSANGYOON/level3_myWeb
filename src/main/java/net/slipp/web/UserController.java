@@ -1,8 +1,6 @@
 package net.slipp.web;
 
 import javax.servlet.http.HttpSession;
-
-import org.hibernate.boot.model.naming.IllegalIdentifierException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import net.slipp.domain.User;
 import net.slipp.domain.UserRepository;
 
@@ -36,18 +33,18 @@ public class UserController {
 			return "redirect:/user/loginForm";
 		}
 		
-		if (!password.equals(user.getPassword())) {
+		if (!user.matchPassword(password)) {
 			System.out.println("========== Login FAILED... password was wrong! =============");
 			return "redirect:/user/loginForm";
 		}
 		System.out.println("========== Login Success!! User is " + user + " =============");
-		session.setAttribute("sessionedUser", user);
+		session.setAttribute(HttpSessionUtils.USER_SESSION_KEY, user);
 		return "redirect:/";
 	}
 	
 	@GetMapping("/user/logout")
 	public String logout(HttpSession session) {
-		session.removeAttribute("sessionedUser");
+		session.removeAttribute(HttpSessionUtils.USER_SESSION_KEY);
 		System.out.println("======== Success to LOGOUT!! ========");
 		
 		return "redirect:/";
@@ -72,15 +69,15 @@ public class UserController {
 	
 	@GetMapping("/user/{id}/form")
 	public String updateForm(@PathVariable Long id, Model model, HttpSession session) {
-		Object tempUser = session.getAttribute("sessionedUser");
-		if (tempUser == null) {
+		if (!HttpSessionUtils.isLoginUser(session)) {
 			return "redirect:/user/loginForm";
 		}
 		
-		User sessionedUser = (User)tempUser;
-		if (!id.equals(sessionedUser.getId())) {
-			throw new IllegalStateException("본인의 정보만 수정할 수 있습니다.");
-		}
+		User sessionedUser = HttpSessionUtils.getUserFromSession(session);
+		
+//		if (!sessionedUser.matchId(id)) {
+//			throw new IllegalStateException("본인의 정보만 수정할 수 있습니다.");
+//		}
 		
 		User user = userRepository.findOne(sessionedUser.getId());
 		model.addAttribute("user", user);
@@ -88,8 +85,7 @@ public class UserController {
 	}
 	
 	@PutMapping("/users/{id}")
-	public String update(@PathVariable long id, User newUser) {
-		System.out.println("asfsleiflsaijflsijfalsijflisj");
+	public String update(@PathVariable Long id, User newUser) {
 		User user = userRepository.findOne(id);
 		user.update(newUser);
 		userRepository.save(user);

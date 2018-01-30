@@ -2,8 +2,11 @@ package net.slipp.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Question {
@@ -11,39 +14,19 @@ public class Question {
 	@GeneratedValue
 	private long id;
 	
-	@Column(nullable=false, length=20)
-	private String writer;
+	@ManyToOne
+	@JoinColumn(foreignKey = @ForeignKey(name = "fk_question_writer"))
+	private User writer;
 	
 	private String title;
 	private String contents;
-
 	
-	public long getId() {
-		return id;
-	}
-
-	public void setWriter(String writer) {
+	public Question() {}
+	
+	public Question(User writer, String title, String contents) {
 		this.writer = writer;
-	}
-
-	public void setTitle(String title) {
 		this.title = title;
-	}
-
-	public void setContents(String contents) {
 		this.contents = contents;
-	}
-
-	public String getWriter() {
-		return writer;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public String getContents() {
-		return contents;
 	}
 
 	@Override
