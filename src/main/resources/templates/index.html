@@ -17,8 +17,8 @@
 						<div class="main">
 							<strong class="subject"><a href="/questions/{{id}}">{{title}}</a></strong>
 							<div class="auth-info">
-								<i class="icon-add-comment"></i> <span class="time">2016-01-15
-									18:47</span> <a href="./user/profile.html" class="author">{{writer.userId}}</a>
+								<i class="icon-add-comment"></i> <span class="time">{{formattedCreateDate}}
+									</span> <a href="./user/profile.html" class="author">{{writer.userId}}</a>
 							</div>
 							<div class="reply" title="댓글">
 								<i class="icon-reply"></i> <span class="point">8</span>
@@ -42,7 +42,7 @@
 					</ul>
 				</div>
 				<div class="col-md-3 qna-write">
-					<a href="./qnaform" class="btn btn-primary pull-right"
+					<a href="/questions/qnaform" class="btn btn-primary pull-right"
 						role="button">질문하기</a>
 				</div>
 			</div>
