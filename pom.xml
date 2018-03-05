@@ -27,10 +27,6 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-mustache</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
@@ -55,9 +51,9 @@
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.webjars/handlebars -->
 		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>handlebars</artifactId>
-			<version>4.0.2</version>
+			<groupId>pl.allegro.tech.boot</groupId>
+			<artifactId>handlebars-spring-boot-starter</artifactId>
+			<version>0.2.15</version>
 		</dependency>
 	</dependencies>
 
