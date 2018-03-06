@@ -23,26 +23,60 @@ public class QuestionController {
 	@Autowired
 	private QuestionRepository questionRepository;
 
+	private Result valid(HttpSession session, Question question) {
+		if (!HttpSessionUtils.isLoginUser(session)) {
+			return Result.fail("로그인이 필요합니다.");
+		}
+		
+		User loginUser = HttpSessionUtils.getUserFromSession(session);
+		if (!question.isSameWriter(loginUser)) {
+			return Result.fail("자신이 쓴 글만 수정, 삭제가 가능합니다.");
+		}
+		
+		return Result.ok();
+	}
+	
+	private boolean hasPermission(HttpSession session, Question question) {
+		if (!HttpSessionUtils.isLoginUser(session)) {
+			throw new IllegalStateException("로그인이 필요합니다.");
+		}
+		return true;
+	}
+	
 	@GetMapping("/qnaform")
 	public String qnaform() {
 		return "/qna/qnaform";
 	}
-
+	
 	@PostMapping("")
-	public String qnaSubmit(String title, String contents, HttpSession session) {
-		if (!HttpSessionUtils.isLoginUser(session)) {
-			return "redirect:/user/loginForm"; // redirect 하지 않으면, PostMappnig -> GetMapping 해야하는데, 이 부분을 구현해놓지 않았으므로,
-												// 405 에러가 뜬다.
+	public String qnaSubmit(String title, String contents, Model model, HttpSession session) {
+		try {
+			User sessionUser = HttpSessionUtils.getUserFromSession(session);
+			Question newQuestion = new Question(sessionUser, title, contents);
+			hasPermission(session, newQuestion);
+			questionRepository.save(newQuestion);
+			return "redirect:/";
+		}catch (IllegalStateException e){
+			model.addAttribute("errorMessage", e.getMessage());
+			return "/user/login";
 		}
-
-		User sessionUser = HttpSessionUtils.getUserFromSession(session);
-		Question newQuestion = new Question(sessionUser, title, contents);
-		questionRepository.save(newQuestion);
-
-		System.out.println("question : " + newQuestion);
-
-		return "redirect:/";
 	}
+
+//	@PostMapping("")		//기존에 짰던 qnasubmit 코드
+//	public String qnaSubmit(String title, String contents, HttpSession session) {
+//		if (!HttpSessionUtils.isLoginUser(session)) {
+//			return "redirect:/user/loginForm"; // redirect 하지 않으면, PostMappnig -> GetMapping 해야하는데, 이 부분을 구현해놓지 않았으므로,
+//												// 405 에러가 뜬다.
+//		}
+//
+//		User sessionUser = HttpSessionUtils.getUserFromSession(session);
+//		Question newQuestion = new Question(sessionUser, title, contents);
+//		questionRepository.save(newQuestion);
+//
+//		System.out.println("question : " + newQuestion);
+//
+//		return "redirect:/";
+//	}
 
 	@GetMapping("/{id}")
 	public String readQuestion(@PathVariable long id, Model model) {
@@ -63,18 +97,6 @@ public class QuestionController {
 		return "/qna/updateForm";
 	}
 
-	private Result valid(HttpSession session, Question question) {
-		if (!HttpSessionUtils.isLoginUser(session)) {
-			return Result.fail("로그인이 필요합니다.");
-		}
-
-		User loginUser = HttpSessionUtils.getUserFromSession(session);
-		if (!question.isSameWriter(loginUser)) {
-			return Result.fail("자신이 쓴 글만 수정, 삭제가 가능합니다.");
-		}
-
-		return Result.ok();
-	}
 
 	@PutMapping("/{id}")
 	public String update(@PathVariable Long id, String title, String contents, Model model, HttpSession session) {

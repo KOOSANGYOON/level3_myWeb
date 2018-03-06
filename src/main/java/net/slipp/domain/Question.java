@@ -36,7 +36,7 @@ public class Question {
 	@OneToMany(mappedBy="question")
 	@OrderBy("createDate ASC")
 	private List<Answer> answers;
-
+	
 	public Question() {
 	}
 
@@ -78,6 +78,10 @@ public class Question {
 			return "";
 		}
 		return createDate.format(DateTimeFormatter.ofPattern("yyyy 년/ MM 월/ dd 일 HH:mm:ss"));
+	}
+	
+	public Integer getAnswerCount() {
+		return answers.size();
 	}
 
 	public void update(String title, String contents) {
