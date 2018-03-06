@@ -65,6 +65,11 @@ public class Question {
 		}
 		return createDate.format(DateTimeFormatter.ofPattern("yyyy 년/ MM 월/ dd 일 HH:mm:ss"));
 	}
+
+	public void update(String title, String contents) {
+		this.title = title;
+		this.contents = contents;
+	}
 	
 	// public void setId(long id) {
 	// this.id = id;
