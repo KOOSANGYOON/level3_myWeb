@@ -2,6 +2,7 @@ package net.slipp.domain;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,7 +10,10 @@ import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 @Entity
 public class Question {
@@ -23,10 +27,15 @@ public class Question {
 
 	@Column(nullable = false, length = 100)
 	private String title;
-
+	
+	@Lob
 	private String contents;
 
 	private LocalDateTime createDate;
+	
+	@OneToMany(mappedBy="question")
+	@OrderBy("createDate ASC")
+	private List<Answer> answers;
 
 	public Question() {
 	}
@@ -38,9 +47,14 @@ public class Question {
 		this.createDate = LocalDateTime.now();
 	}
 
+	public List<Answer> getAnswers() {
+		return answers;
+	}
+
 	@Override
 	public String toString() {
-		return "Question [writer=" + writer + ", title=" + title + ", contents=" + contents + "]";
+		return "Question [id=" + id + ", writer=" + writer + ", title=" + title + ", contents=" + contents
+				+ ", createDate=" + createDate + ", answers=" + answers + "]";
 	}
 
 	public long getId() {
@@ -70,7 +84,11 @@ public class Question {
 		this.title = title;
 		this.contents = contents;
 	}
-	
+
+	public boolean isSameWriter(User loginUser) {
+		return this.writer.equals(loginUser);
+	}
+
 	// public void setId(long id) {
 	// this.id = id;
 	// }
