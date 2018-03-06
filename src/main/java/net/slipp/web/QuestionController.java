@@ -26,7 +26,7 @@ public class QuestionController {
 	@PostMapping("")
 	public String qnaSubmit(String title, String contents, HttpSession session) {
 		if (!HttpSessionUtils.isLoginUser(session)) {
-			return "/user/loginForm";
+			return "redirect:/user/loginForm";		//redirect 하지 않으면, PostMappnig -> GetMapping 해야하는데, 이 부분을 구현해놓지 않았으므로, 405 에러가 뜬다.
 		}
 		
 		User sessionUser = HttpSessionUtils.getUserFromSession(session);

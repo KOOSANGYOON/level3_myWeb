@@ -16,20 +16,21 @@ public class Question {
 	@Id
 	@GeneratedValue
 	private long id;
-	
+
 	@ManyToOne
 	@JoinColumn(foreignKey = @ForeignKey(name = "fk_question_writer"))
 	private User writer;
-	
-	@Column(nullable=false, length=100)
+
+	@Column(nullable = false, length = 100)
 	private String title;
-	
+
 	private String contents;
-	
+
 	private LocalDateTime createDate;
-	
-	public Question() {}
-	
+
+	public Question() {
+	}
+
 	public Question(User writer, String title, String contents) {
 		this.writer = writer;
 		this.title = title;
@@ -42,10 +43,37 @@ public class Question {
 		return "Question [writer=" + writer + ", title=" + title + ", contents=" + contents + "]";
 	}
 
+	public long getId() {
+		return id;
+	}
+
+	public User getWriter() {
+		return writer;
+	}
+	
+	public String getContents() {
+		return contents;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+	
 	public String getFormattedCreateDate() {
 		if (createDate == null) {
 			return "";
 		}
 		return createDate.format(DateTimeFormatter.ofPattern("yyyy 년/ MM 월/ dd 일 HH:mm:ss"));
 	}
+	
+	// public void setId(long id) {
+	// this.id = id;
+	// }
+	// public void setWriter(User writer) {
+	// this.writer = writer;
+	// }
+	// public void setTitle(String title) {
+	// this.title = title;
+	// }
+
 }

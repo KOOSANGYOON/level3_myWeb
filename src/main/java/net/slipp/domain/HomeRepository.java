@@ -16,9 +16,9 @@ public class HomeRepository {
 	@GetMapping("/")
 	public String main(HttpSession session) {
 //		model.addAttribute("questions", questionRepository.findAll());
+//		model.addAttribute("users", userRepository.findAll());
 		System.out.println("main is comming");
 		session.setAttribute("questions", questionRepository.findAll());
-//		model.addAttribute("users", userRepository.findAll());
 		return "index";
 	}
 }
