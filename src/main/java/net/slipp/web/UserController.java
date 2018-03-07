@@ -50,6 +50,11 @@ public class UserController {
 		return "redirect:/";
 	}
 	
+	@GetMapping("/")
+	public String index() {
+		return "index";
+	}
+	
 	@PostMapping("/users")
 	public String create(User user) {
 		System.out.println("user : " + user);
