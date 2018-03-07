@@ -21,8 +21,6 @@ function addAnswer(e) {
 
 function onError(request,status,error) {
 	console.log("error" + error);
-//	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-//	alert("code: "+request.status+"\n"+"error: "+error);
 }
 
 function onSuccess(data, status) {

@@ -23,15 +23,17 @@ public class ApiAnswerController {
 	@Autowired
 	private AnswerRepository answerRepository;
 	
-//	private boolean hasPermission(HttpSession session, Question question) {
-//		if (!HttpSessionUtils.isLoginUser(session)) {
-//			throw new IllegalStateException("로그인이 필요합니다.");
-//		}
-//		return true;
-//	}
-	
 	@PostMapping("")
 	public Answer create(@PathVariable Long questionId, String contents, HttpSession session) {
+		if (!HttpSessionUtils.isLoginUser(session)) {		//기존의 answer 구현코드. 수정1
+			return null;
+		}
+		
+		User loginUser = HttpSessionUtils.getUserFromSession(session);
+		Question question = questionRepository.findOne(questionId);
+		Answer answer = new Answer(loginUser, question, contents);
+		return answerRepository.save(answer);
+		
 //		try {		//내가 구현해본 부분.
 //			User loginUser = HttpSessionUtils.getUserFromSession(session);
 //			Question question = questionRepository.findOne(questionId);
@@ -52,15 +54,13 @@ public class ApiAnswerController {
 //		Answer answer = new Answer(loginUser, question, contents);
 //		answerRepository.save(answer);
 //		return String.format("redirect:/questions/%d", questionId);
-		
-		if (!HttpSessionUtils.isLoginUser(session)) {		//기존의 answer 구현코드. 수정1
-			return null;
-		}
-		
-		User loginUser = HttpSessionUtils.getUserFromSession(session);
-		Question question = questionRepository.findOne(questionId);
-		Answer answer = new Answer(loginUser, question, contents);
-		return answerRepository.save(answer);
 	}
+	
+//	private boolean hasPermission(HttpSession session, Question question) {
+//		if (!HttpSessionUtils.isLoginUser(session)) {
+//			throw new IllegalStateException("로그인이 필요합니다.");
+//		}
+//		return true;
+//	}
 
 }

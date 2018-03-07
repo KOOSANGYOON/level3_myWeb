@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -15,6 +14,8 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Question {
@@ -34,7 +35,7 @@ public class Question {
 
 	private LocalDateTime createDate;
 	
-	@OneToMany(mappedBy="question", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="question")
 	@OrderBy("createDate ASC")
 	private List<Answer> answers;
 	
@@ -48,6 +49,7 @@ public class Question {
 		this.createDate = LocalDateTime.now();
 	}
 
+	@JsonIgnore
 	public List<Answer> getAnswers() {
 		return answers;
 	}
@@ -93,15 +95,4 @@ public class Question {
 	public boolean isSameWriter(User loginUser) {
 		return this.writer.equals(loginUser);
 	}
-
-	// public void setId(long id) {
-	// this.id = id;
-	// }
-	// public void setWriter(User writer) {
-	// this.writer = writer;
-	// }
-	// public void setTitle(String title) {
-	// this.title = title;
-	// }
-
 }
