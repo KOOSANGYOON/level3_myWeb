@@ -19,16 +19,16 @@ import net.slipp.domain.User;
 public class ApiAnswerController {
 	@Autowired
 	private QuestionRepository questionRepository;
-	
+
 	@Autowired
 	private AnswerRepository answerRepository;
-	
+
 	@PostMapping("")
 	public Answer create(@PathVariable Long questionId, String contents, HttpSession session) {
 		if (!HttpSessionUtils.isLoginUser(session)) {		//기존의 answer 구현코드. 수정1
 			return null;
 		}
-		
+
 		User loginUser = HttpSessionUtils.getUserFromSession(session);
 		Question question = questionRepository.findOne(questionId);
 		Answer answer = new Answer(loginUser, question, contents);
