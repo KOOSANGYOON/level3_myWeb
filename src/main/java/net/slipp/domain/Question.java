@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Question {
 	@Id
@@ -47,6 +49,7 @@ public class Question {
 		this.createDate = LocalDateTime.now();
 	}
 
+	@JsonIgnore
 	public List<Answer> getAnswers() {
 		return answers;
 	}
@@ -72,7 +75,7 @@ public class Question {
 	public String getTitle() {
 		return title;
 	}
-	
+
 	public String getFormattedCreateDate() {
 		if (createDate == null) {
 			return "";
@@ -92,15 +95,4 @@ public class Question {
 	public boolean isSameWriter(User loginUser) {
 		return this.writer.equals(loginUser);
 	}
-
-	// public void setId(long id) {
-	// this.id = id;
-	// }
-	// public void setWriter(User writer) {
-	// this.writer = writer;
-	// }
-	// public void setTitle(String title) {
-	// this.title = title;
-	// }
-
 }
