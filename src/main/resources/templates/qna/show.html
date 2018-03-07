@@ -84,11 +84,11 @@
 									</div>
 								</article>
 								{{/answers}}
-								<form class="submit-write" method="post"
-									action="/questions/{{id}}/answers">
+								<form class="answer-write" method="post"
+									action="/api/questions/{{id}}/answers">
 									<div class="form-group" style="padding: 14px;">
 										<textarea class="form-control"
-											placeholder="Update your status" name="contents"></textarea>
+											placeholder="Comments here" name="contents"></textarea>
 									</div>
 									<input type="submit" class="btn btn-success pull-right"
 										value="답변하기" />

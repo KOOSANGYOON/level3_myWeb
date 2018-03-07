@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -33,7 +34,7 @@ public class Question {
 
 	private LocalDateTime createDate;
 	
-	@OneToMany(mappedBy="question")
+	@OneToMany(mappedBy="question", fetch=FetchType.EAGER)
 	@OrderBy("createDate ASC")
 	private List<Answer> answers;
 	
@@ -72,7 +73,7 @@ public class Question {
 	public String getTitle() {
 		return title;
 	}
-	
+
 	public String getFormattedCreateDate() {
 		if (createDate == null) {
 			return "";
