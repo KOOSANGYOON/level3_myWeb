@@ -13,7 +13,6 @@ import net.slipp.domain.User;
 import net.slipp.domain.UserRepository;
 
 @Controller
-@RequestMapping("/")
 public class UserController {
 	@Autowired
 	private UserRepository userRepository;
