@@ -54,6 +54,26 @@
 			<artifactId>h2</artifactId>
 			<version>1.4.196</version>
 		</dependency>
+
+		<!-- Java 6 = JAX-B Version 2.0 -->
+		<!-- Java 7 = JAX-B Version 2.2.3 -->
+		<!-- Java 8 = JAX-B Version 2.2.8 -->
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.2.11</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb-core</artifactId>
+			<version>2.2.11</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb-impl</artifactId>
+			<version>2.2.11</version>
+		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/org.webjars/handlebars -->
 		<dependency>
 			<groupId>pl.allegro.tech.boot</groupId>
