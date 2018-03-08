@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 public class Question {
@@ -39,6 +40,9 @@ public class Question {
 	@OrderBy("createDate DESC")
 	private List<Answer> answers;
 	
+	@JsonProperty
+	private Integer countOfAnswer = 0;
+	
 	public Question() {
 	}
 
@@ -53,6 +57,14 @@ public class Question {
 	public List<Answer> getAnswers() {
 		return answers;
 	}
+	
+	public void addAnswer() {
+		this.countOfAnswer += 1;
+	}
+	
+	public void deleteAnswer() {
+		this.countOfAnswer -= 1;
+	} 
 
 	@Override
 	public String toString() {
@@ -83,6 +95,10 @@ public class Question {
 		return createDate.format(DateTimeFormatter.ofPattern("yyyy 년/ MM 월/ dd 일 HH:mm:ss"));
 	}
 	
+	public Integer getCountOfAnswer() {
+		return countOfAnswer;
+	}
+
 	public Integer getAnswerCount() {
 		return answers.size();
 	}
@@ -95,4 +111,5 @@ public class Question {
 	public boolean isSameWriter(User loginUser) {
 		return this.writer.equals(loginUser);
 	}
+
 }
