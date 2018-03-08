@@ -36,7 +36,7 @@ public class Question {
 	private LocalDateTime createDate;
 	
 	@OneToMany(mappedBy="question")
-	@OrderBy("createDate ASC")
+	@OrderBy("createDate DESC")
 	private List<Answer> answers;
 	
 	public Question() {

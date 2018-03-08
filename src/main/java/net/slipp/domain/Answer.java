@@ -75,6 +75,10 @@ public class Answer {
 		return createDate.format(DateTimeFormatter.ofPattern("yyyy 년/ MM 월/ dd 일 HH:mm:ss"));
 	}
 	
+	public boolean isSameWriter(User loginUser) {
+		return loginUser.equals(this.writer);
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -102,4 +106,5 @@ public class Answer {
 		return "Answer [id=" + id + ", writer=" + writer + ", contents=" + contents + ", createDate=" + createDate
 				+ "]";
 	}
+
 }

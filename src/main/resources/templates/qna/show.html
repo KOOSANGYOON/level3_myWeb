@@ -73,13 +73,8 @@
 										<ul class="article-util-list">
 											<li><a class="link-modify-article"
 												href="/questions/413/answers/1405/form">수정</a></li>
-											<li>
-												<form class="delete-answer-form"
-													action="/questions/413/answers/1405" method="POST">
-													<input type="hidden" name="_method" value="DELETE">
-													<button type="submit" class="delete-answer-button">삭제</button>
-												</form>
-											</li>
+											<li><a class="link-delete-article"
+												href="/api/questions/{{question.id}}/answers/{{id}}">삭제</a></li>
 										</ul>
 									</div>
 								</article>
@@ -87,8 +82,8 @@
 								<form class="answer-write" method="post"
 									action="/api/questions/{{id}}/answers">
 									<div class="form-group" style="padding: 14px;">
-										<textarea class="form-control"
-											placeholder="Comments here" name="contents"></textarea>
+										<textarea class="form-control" placeholder="Comments here"
+											name="contents"></textarea>
 									</div>
 									<input type="submit" class="btn btn-success pull-right"
 										value="답변하기" />
@@ -123,15 +118,12 @@
 				<a class="link-modify-article" href="/api/qna/updateAnswer/{3}">수정</a>
 			</li>
 			<li>
-				<form class="delete-answer-form" action="/api/questions/{3}/answers/{4}" method="POST">
-					<input type="hidden" name="_method" value="DELETE">
-                     <button type="submit" class="delete-answer-button">삭제</button>
-				</form>
+				<a class="link-delete-article" href="/api/questions/{3}/answers/{4} ">삭제</a>
 			</li>
 		</ul>
 		</div>
 	</article>
-</script>
+	</script>
 
 	{{>frame/footer}}
 </body>
