@@ -1,6 +1,6 @@
 package net.slipp;
 
-import static springfox.documentation.builders.PathSelectors.regex;
+//import static springfox.documentation.builders.PathSelectors.regex;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
